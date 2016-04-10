@@ -1,0 +1,25 @@
+maven_version: "3.3.3"
+maven_download_url: "http://mirror.ventraip.net.au/apache/maven/maven-3/{{ maven_version }}/binaries/apache-maven-{{ maven_version }}-bin.tar.gz"
+maven_install_dir: "/usr/local"
+maven_home: "{{ maven_install_dir }}/apache-maven-{{ maven_version }}"
+maven_home_dir: "{{ maven_install_dir }}/maven"
+go_user: "go-agent1"
+go_group: "go-agent1"
+go_user_home: "/var/go/go-agent1"
+java_home: "/etc/alternatives/java_sdk_1.7.0"
+maven_username: "svc_go"
+maven_password: "{pj/y85fL550HA6K+tizZsoXZ3ybkv6fT2c3FXlpkel0=}"
+maven_master_password: "{p7wJ55rX/bwHQ+oGSXJ+MdrqH+Qh/sXgOFJ5NQvWen4=}"
+nbn_certs:
+ - 'NBN Co Basic Assurance Intermediate CA.cer'
+ - 'NBN Co Basic Assurance Issuing CA.cer'
+ - 'NBN Co Medium Assurance Intermediate CA.cer'
+ - 'NBN Co Medium Assurance Issuing CA.cer'
+ - 'NBN Co Root CA.cer'
+ - 'NBN Co TEST High Assurance Intermediate CA.cer'
+ - 'NBN Co TEST High Assurance Issuing CA.cer'
+ - 'NBN Co TEST Medium Assurance Intermediate CA.cer'
+ - 'NBN Co TEST Medium Assurance Issuing CA.cer'
+ - 'NBN Co TEST Root CA.cer'
+ - 'NBN-Root-CA.cer'
+ - 'NBN-Sub-CA.cer'

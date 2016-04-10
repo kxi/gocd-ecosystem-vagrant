@@ -1,0 +1,19 @@
+- name: Add GoCD repo
+  copy:
+    src: gocd.repo
+    dest: /etc/yum.repos.d/gocd.repo
+  sudo: true
+
+
+- name: Install JDK
+  yum:
+    name: java-1.7.0-openjdk-devel
+    state: present
+  sudo: true
+
+
+- name: Install Go Server
+  yum:
+    name: go-server
+    state: present
+  sudo: true

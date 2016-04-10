@@ -1,0 +1,9 @@
+- name: Install System Tools
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - nc
+    - telnet
+    - vim
+    - unzip

@@ -1,0 +1,19 @@
+- name: Deploy Go Server
+  hosts: go-server
+  gather_facts: true
+  sudo: true
+  roles:
+    - sys_package
+    - install_go_server
+
+
+- name: Deploy Go Agent
+  hosts: go-agent
+  gather_facts: true
+  sudo: true
+  roles:
+    - sys_package
+    - user_go_agent
+    - install_go_agent
+    - git
+    - maven

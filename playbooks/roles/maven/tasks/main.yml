@@ -1,0 +1,74 @@
+- name: Check If Maven is Installed
+  stat: path={{ maven_install_dir }}/apache-maven-{{ maven_version}}
+  register: maven_directory
+
+
+- name: Download Maven Installer
+  get_url:
+    url: "{{ maven_download_url }}"
+    dest: /tmp/apache-maven-{{ maven_version }}-bin.tar.gz
+  when: not maven_directory.stat.exists
+
+
+- name: Copy and Unzip Maven Installer
+  unarchive:
+    src: /tmp/apache-maven-{{ maven_version }}-bin.tar.gz
+    dest: /usr/local
+    copy: no
+  when: not maven_directory.stat.exists
+
+
+- name: Create Symlink to Maven
+  file:
+    src: /usr/local/apache-maven-{{ maven_version }}/bin/mvn
+    dest: /usr/bin/mvn
+    owner: root
+    group: root
+    state: link
+
+
+- name: Ensure .m2 dir exists and has correct owner/group
+  file:
+    path: "{{ go_user_home }}/.m2"
+    state: directory
+    owner: "{{ go_user }}"
+    group: "{{ go_group }}"
+    mode: 0774
+
+
+- name: Ensure Maven local .m2/settings for GO user account
+  template:
+    src: "settings.xml.j2"
+    dest: "{{ go_user_home }}/.m2/settings.xml"
+    owner: "{{ go_user }}"
+    group: "{{ go_group }}"
+    mode: 0640
+  changed_when: false
+
+
+- name: Ensure Maven local .m2/settings-security for GO user account
+  template:
+    src: "settings-security.xml.j2"
+    dest: "{{ go_user_home }}/.m2/settings-security.xml"
+    owner: "{{ go_user }}"
+    group: "{{ go_group }}"
+    mode: 0640
+  changed_when: false
+
+
+- name: "Copy NBN certificates to {{ java_home }}jre/lib/security"
+  copy:
+    src: "{{ item }}"
+    dest: "{{ java_home }}/jre/lib/security"
+  with_items: nbn_certs
+  register: nbncerts_stat
+  changed_when: false
+
+
+- name: "Import NBN Certificates into Java Keystore"
+  command: "{{ java_home }}/bin/keytool -import -alias '{{ item | basename | regex_replace('\\.\\S+$','') }}' -storepass changeit -noprompt -keystore {{ java_home }}/jre/lib/security/cacerts -file '{{ java_home }}/jre/lib/security/{{ item }}'"
+  with_items: nbn_certs
+  register: nbncerts_result
+  failed_when: >
+    nbncerts_result.rc != 0 and ("already exists" not in nbncerts_result.stdout)
+  changed_when: "nbncerts_result.rc == 0"

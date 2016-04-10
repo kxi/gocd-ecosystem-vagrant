@@ -1,0 +1,3 @@
+go_user: "go-agent1"
+go_group: "go-agent1"
+go_user_home: "/var/go/go-agent1"

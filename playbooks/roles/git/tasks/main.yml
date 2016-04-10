@@ -1,0 +1,41 @@
+- name: Install Git Related Libs
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gcc
+    - gcc-c++
+    - kernel-devel
+    - curl-devel
+    - expat-devel
+    - gettext-devel
+    - openssl-devel
+    - perl-devel
+    - zlib-devel
+    - autoconf
+
+- name: Download Git Installer
+  get_url:
+    url: https://github.com/git/git/archive/v{{ GIT_VERSION }}.zip
+    dest: /tmp/v{{ GIT_VERSION }}.zip
+  sudo: True
+
+
+- name: Copy and Unzip Git Installer
+  unarchive:
+    src: /tmp/v{{ GIT_VERSION }}.zip
+    dest: /tmp
+    copy: no
+  sudo: True
+
+
+- name: Make, Make Install Git
+  shell: "{{ item }}"
+  args:
+    chdir: "/tmp/git-{{ GIT_VERSION }}"
+  with_items:
+    - make configure
+    - ./configure --prefix=/usr
+    - make
+    - make install
+  sudo: True

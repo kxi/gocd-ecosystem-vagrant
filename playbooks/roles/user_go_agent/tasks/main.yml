@@ -1,0 +1,31 @@
+- name: Ensure Home Directory Exist
+  file:
+    path: "{{ go_user_home }}"
+    state: "directory"
+    mode: 0755
+
+
+- name: Create GO Account Group
+  group:
+    name: "{{ go_group }}"
+    state: present
+  sudo: true
+
+
+- name: Create GO Account User
+  user:
+    name: "{{ go_user }}"
+    group: "{{ go_group }}"
+    home: "{{ go_user_home }}"
+    shell: "/bin/bash"
+  sudo: true
+
+
+- name: Ensure Home Directory is Owned by Go Agent
+  file:
+    path: "{{ go_user_home }}"
+    owner: "{{ go_user }}"
+    group: "{{ go_group }}"
+    state: "directory"
+  sudo: true
+
