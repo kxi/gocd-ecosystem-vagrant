@@ -5,6 +5,7 @@
   roles:
     - sys_package
     - install_go_server
+    - git
 
 
 - name: Deploy Go Agent

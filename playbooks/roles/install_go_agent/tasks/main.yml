@@ -23,6 +23,7 @@
   copy:
     src: go-agent.conf
     dest: /etc/default/go-agent
+    mode: 0644
   sudo: true
 
 
@@ -53,4 +54,3 @@
     name: go-agent
     state: restarted
   sudo: true
-
