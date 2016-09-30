@@ -20,6 +20,7 @@
   copy:
     src: go-agent.conf
     dest: /etc/default/go-agent
+    mode: 0644
 
 
 - name: Change Permission of Go Related Stuff

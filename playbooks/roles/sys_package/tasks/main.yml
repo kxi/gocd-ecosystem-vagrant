@@ -7,3 +7,19 @@
     - telnet
     - vim
     - unzip
+    - python-setuptools
+
+- name: Install Python Pip
+  shell: >
+    easy_install pip
+  become: true
+
+- name: Install Python Packages
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - requests
+    - argparse
+    - logging
+    - PyYAML
+  become: true

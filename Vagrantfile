@@ -12,6 +12,8 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
+
+  config.ssh.insert_key = false
   config.vm.define "go-server" do |server|
     server.vm.box = "centos/7"
     server.vm.hostname = "go-server"
