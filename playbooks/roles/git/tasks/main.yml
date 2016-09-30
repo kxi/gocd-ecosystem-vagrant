@@ -14,11 +14,11 @@
     - zlib-devel
     - autoconf
 
+
 - name: Download Git Installer
   get_url:
     url: https://github.com/git/git/archive/v{{ GIT_VERSION }}.zip
     dest: /tmp/v{{ GIT_VERSION }}.zip
-  sudo: True
 
 
 - name: Copy and Unzip Git Installer
@@ -26,7 +26,6 @@
     src: /tmp/v{{ GIT_VERSION }}.zip
     dest: /tmp
     copy: no
-  sudo: True
 
 
 - name: Make, Make Install Git
@@ -38,4 +37,3 @@
     - ./configure --prefix=/usr
     - make
     - make install
-  sudo: True

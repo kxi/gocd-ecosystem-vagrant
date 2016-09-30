@@ -13,7 +13,7 @@ Vagrant.configure(2) do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.define "go-server" do |server|
-    server.vm.box = "bento/centos-7.1"
+    server.vm.box = "centos/7"
     server.vm.hostname = "go-server"
     server.vm.network "forwarded_port", guest: 8153, host: 1153
     server.vm.network "private_network", ip: "192.168.50.4"
@@ -24,12 +24,12 @@ Vagrant.configure(2) do |config|
       ansible.playbook = "playbooks/system_provision.yml"
       ansible.limit = "go-server"
     end
+    server.ssh.insert_key = false
   end
 
   config.vm.define "go-agent" do |agent|
-    agent.vm.box = "bento/centos-7.1"
+    agent.vm.box = "centos/7"
     agent.vm.hostname = "go-agent"
-    agent.vm.network "forwarded_port", guest: 8153, host: 2153
     agent.vm.network "private_network", ip: "192.168.50.3"
     agent.vm.provider "virtualbox" do |vb|
       vb.memory = "1024"
@@ -38,5 +38,6 @@ Vagrant.configure(2) do |config|
       ansible.playbook = "playbooks/system_provision.yml"
       ansible.limit = "go-agent"
     end
+    agent.ssh.insert_key = false
   end
 end

@@ -4,47 +4,52 @@
                           http://maven.apache.org/xsd/settings-1.0.0.xsd">
 <servers>
   <server>
-      <id>ful</id>
-      <username>{{ maven_username }}</username>
-      <password>{{ maven_password }}</password>
+      <id>central</id>
+      <username>cd_svc</username>
+      <password>{{ sample_artifactory_password }}</password>
+  </server>
+  <server>
+      <id>snapshots</id>
+      <username>cd_svc</username>
+      <password>{{ sample_artifactory_password }}</password>
   </server>
 </servers>
 <mirrors>
   <mirror>
-    <!--This sends everything else to /public -->
-    <id>nexus</id>
-    <mirrorOf>*,!ful,!ful_snapshot</mirrorOf>
-    <url>http://nexus.nbnco.net.au/content/groups/public/</url>
+    <mirrorOf>*</mirrorOf>
+    <name>remote-repos</name>
+    <url>http://{{ repo_system_ip }}:{{ repo_system_port }}/artifactory/remote-repos</url>
+    <id>remote-repos</id>
   </mirror>
 </mirrors>
 <profiles>
 <profile>
-  <id>ful</id>
+  <id>test</id>
       <repositories>
         <repository>
-          <id>ful</id>
-          <name>Repository for HFC Fulfilment Release</name>
-          <url>https://nexus.nbnco.net.au/content/repositories/ful</url>
+          <id>central</id>
+          <name>artifactory-server-releases</name>
+          <url>http://{{ repo_system_ip }}: {{ repo_system_port }}/artifactory/maven-test-repo</url>
           <layout>default</layout>
         </repository>
         <repository>
-          <id>ful_snapshot</id>
-          <name>Repository for HFC Fulfilment Snapshots</name>
-          <url>https://nexus.nbnco.net.au/content/repositories/ful_snapshot</url>
+          <id>snapshots</id>
+          <name>Repository for Maven Artifactory Test Snapshot</name>
+          <url>http://{{ repo_system_ip }}:{{ repo_system_port }}/artifactory/maven-test-repo</url>
           <layout>default</layout>
         </repository>
       </repositories>
        <pluginRepositories>
         <pluginRepository>
-         <id>ful</id>
-         <name>Repository for HFC Fulfilment Release</name>
-         <url>https://nexus.nbnco.net.au/content/repositories/ful</url>
+         <id>central</id>
+         <name>artifactory-server-releases</name>
+         <url>http://{{ repo_system_ip }}:{{ repo_system_port }}/artifactory/maven-test-repo</url>
          <layout>default</layout>
        </pluginRepository>
      </pluginRepositories>
   </profile>
 </profiles>
 <activeProfiles>
-    <activeProfile>ful</activeProfile>
+    <activeProfile>test</activeProfile>
   </activeProfiles>
 </settings>

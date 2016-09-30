@@ -2,28 +2,24 @@
   copy:
     src: gocd.repo
     dest: /etc/yum.repos.d/gocd.repo
-  sudo: true
 
 
 - name: Install JDK
   yum:
     name: java-1.7.0-openjdk-devel
     state: present
-  sudo: true
 
 
 - name: Install Go Agent
   yum:
     name: go-agent
     state: present
-  sudo: true
 
 
 - name: Set up Go Configuration
   copy:
     src: go-agent.conf
     dest: /etc/default/go-agent
-  sudo: true
 
 
 - name: Change Permission of Go Related Stuff
@@ -38,19 +34,15 @@
     - "/var/log/go-agent"
     - "/var/lib/go-agent"
     - "/var/run/go-agent"
-  sudo: true
 
 
 - name: Customize Init Script
   copy:
     src: go-agent.init
     dest: /etc/init.d/go-agent
-  sudo: true
 
 
-- name: Restarted Go Agent Service
-  service:
-    name: go-agent
-    state: restarted
-  sudo: true
-
+# - name: Restarted Go Agent Service
+#  service:
+#    name: go-agent
+#    state: restarted

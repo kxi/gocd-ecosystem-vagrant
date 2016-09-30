@@ -54,21 +54,3 @@
     group: "{{ go_group }}"
     mode: 0640
   changed_when: false
-
-
-- name: "Copy NBN certificates to {{ java_home }}jre/lib/security"
-  copy:
-    src: "{{ item }}"
-    dest: "{{ java_home }}/jre/lib/security"
-  with_items: nbn_certs
-  register: nbncerts_stat
-  changed_when: false
-
-
-- name: "Import NBN Certificates into Java Keystore"
-  command: "{{ java_home }}/bin/keytool -import -alias '{{ item | basename | regex_replace('\\.\\S+$','') }}' -storepass changeit -noprompt -keystore {{ java_home }}/jre/lib/security/cacerts -file '{{ java_home }}/jre/lib/security/{{ item }}'"
-  with_items: nbn_certs
-  register: nbncerts_result
-  failed_when: >
-    nbncerts_result.rc != 0 and ("already exists" not in nbncerts_result.stdout)
-  changed_when: "nbncerts_result.rc == 0"
